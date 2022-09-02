@@ -1,0 +1,12 @@
+//  _开头的文件是sass中的写法，代表不可直接编译，只能作为模块导入
+//config
+@import "variables";
+
+//layout
+@import "reboot";
+
+//mixin
+@import 'mixin';
+
+//button
+@import "../components/Button/style"
