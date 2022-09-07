@@ -14,7 +14,7 @@ export interface SubMenuProps {
     children?: React.ReactNode;
 }
 
-export default function SubMenu(props: SubMenuProps) {
+export function SubMenu(props: SubMenuProps) {
     const {index, title, className, children} = props
     const context = useContext(MenuContext)
     //设置默认打开的下拉框
@@ -101,3 +101,5 @@ export default function SubMenu(props: SubMenuProps) {
 }
 
 SubMenu.displayName = 'SubMenu'
+
+export default SubMenu;

@@ -23,7 +23,7 @@ interface IMenuContext {
 //创造纪录当前menu的index的context
 export const MenuContext = createContext<IMenuContext>({index: '0'})
 
-const Menu = (props: MenuProps) => {
+export const Menu = (props: MenuProps) => {
   const { className, mode, style, children, defaultIndex, onSelect, defaultOpenSubMenus } = props
 
   const [currentActive, setActive] = useState(defaultIndex)

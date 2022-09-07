@@ -10,7 +10,7 @@ export interface MenuItemProps {
   children?: React.ReactNode;
 }
 
-const MenuItem: React.FC<MenuItemProps> = (props) => {
+export const MenuItem: React.FC<MenuItemProps> = (props) => {
   const { index, disabled, className, style, children } = props
   //从provider中拿到Menu中的Context
   const context = useContext(MenuContext)

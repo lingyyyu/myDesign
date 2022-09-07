@@ -1,17 +1,19 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export enum ButtonSize{
-    Large = 'lg',
-    Small = 'sm',
-}
+// export enum ButtonSize{
+//     Large = 'lg',
+//     Small = 'sm',
+// }
 
-export enum ButtonType {
-    Primary = 'primary',
-    Default = 'default',
-    Danger = 'danger',
-    Link = 'link'
-}
+// export enum ButtonType {
+//     Primary = 'primary',
+//     Default = 'default',
+//     Danger = 'danger',
+//     Link = 'link'
+// }
+export type ButtonSize = 'lg' | 'sm'
+export type ButtonType = 'primary' | 'default' | 'danger' | 'link'
 
 interface BaseButtonProps {
     className?: string;
@@ -30,7 +32,13 @@ type AnchorButtonProps = BaseButtonProps & React.AnchorHTMLAttributes<HTMLElemen
 
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
 
-const Button: React.FC<ButtonProps> = (props) => {
+/**
+ * Button组件，支持链接形按钮
+ * @param props 
+ * @returns 
+ */
+//storybook要获取到参数的话不仅需要默认导出，还要一个普通的导出
+export const Button: React.FC<ButtonProps> = (props) => {
     const {
         btnType,
         className, //取出用户传进来的自定义className
@@ -44,9 +52,9 @@ const Button: React.FC<ButtonProps> = (props) => {
     const classes = classNames('btn', className, {
         [`btn-${btnType}`]: btnType,
         [`btn-${size}`]: size,
-        'disabled': (btnType === ButtonType.Link) && disabled  //当是link或者disable时不显示样式
+        'disabled': (btnType === 'link') && disabled  //当是link或者disable时不显示样式
     })
-    if(btnType === ButtonType.Link && href){
+    if(btnType === 'link' && href){
         return (
             <a className={classes} href={href} {...restProps}>{children}</a>
         )
@@ -60,7 +68,7 @@ const Button: React.FC<ButtonProps> = (props) => {
 //默认参数
 Button.defaultProps = {
     disabled: false,
-    btnType: ButtonType.Default
+    btnType: 'default'
 }
 
 export default Button
