@@ -1,0 +1,30 @@
+.my-form {
+    .my-row { 
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+      &.my-row-no-label {
+        flex-direction: row-reverse;
+      }
+      .my-form-item-label {
+        flex-basis: 30%;
+        text-align: right;
+        padding-right: 20px;
+        >label {
+          margin-bottom: 0;
+        }
+      }
+      .my-form-item { 
+        flex-basis: 70%;
+        .my-input-wrapper {
+          margin-bottom: 0;
+        }
+      }
+    }
+    .my-form-submit-area { 
+      display: flex;
+      align-items: center;
+      justify-content: center;  
+    }
+  
+  }
