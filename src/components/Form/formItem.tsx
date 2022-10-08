@@ -1,6 +1,7 @@
 import React, { FC, ReactNode, useContext, useEffect } from 'react'
 import classNames from 'classnames'
 import { FormContext } from './form';
+import { RuleItem } from 'async-validator';
 
 //设置必选类型，这样就不用在代码里头重复判断是否为空了，如const value = getValueFromEvent && getValueFromEvent(e)
 export type SomeRequired<T, K extends keyof T> = Required<Pick<T, K>> & Omit<T, K>
@@ -13,6 +14,8 @@ export interface FormItemProps {
   valuePropName?: string;  //默认value
   trigger?: string;   //默认onChange
   getValueFromEvent?: (event: any) => any;  //默认(e) => e.target.value
+  rules?: RuleItem[];
+  validateTrigger?: string;
 }
 
 const FormItem: FC<FormItemProps> = (props) => {
@@ -22,17 +25,19 @@ const FormItem: FC<FormItemProps> = (props) => {
     name,
     valuePropName,
     trigger,
-    getValueFromEvent
-  } = props as SomeRequired<FormItemProps, 'getValueFromEvent' | 'trigger' | 'valuePropName'>  //将'getValueFromEvent'，'trigger'，'valuePropName'标记为一定存在
-  const { dispatch, fields, initialValues } = useContext(FormContext)
+    getValueFromEvent,
+    rules,
+    validateTrigger
+  } = props as SomeRequired<FormItemProps, 'getValueFromEvent' | 'trigger' | 'valuePropName' | 'validateTrigger'>  //将'getValueFromEvent'，'trigger'，'valuePropName'标记为一定存在
+  const { dispatch, fields, initialValues, validateField } = useContext(FormContext)
   const rowClass = classNames('my-row', {
     'my-row-no-label': !label
   })
 
   useEffect(() => {
     const value = (initialValues && initialValues[name]) || ''
-    dispatch({ type: 'addField', name, value: { label, name, value }})
-  }, [dispatch, initialValues, label, name])
+    dispatch({ type: 'addField', name, value: { label, name, value, rules, isValid: true }})
+  }, [dispatch, initialValues, label, name, rules])
 
   // 获取store 对应的 value
   const fieldState = fields[name]
@@ -43,6 +48,9 @@ const FormItem: FC<FormItemProps> = (props) => {
     const value = getValueFromEvent(e)
     console.log('new value', value)
     dispatch({ type: 'updateValue', name, value })
+  }
+  const onValueValidate = async () => {
+    await validateField(name)
   }
   // 1 手动的创建一个属性列表，需要有 value 以及 onChange 属性
   //利用Input的onChange属性，输入时自动获取value并dispatch
@@ -57,6 +65,10 @@ const FormItem: FC<FormItemProps> = (props) => {
   //使用了SomeRequired后不再需要判断是否为空了
   controlProps[valuePropName] = value
   controlProps[trigger] = onValueUpdate
+  //如果传入了规则，则将规则作为受控属性传入子组件
+  if (rules) {
+    controlProps[validateTrigger] = onValueValidate
+  }
 
 
   // 2 获取 children 数组的第一个元素(只操作Item中的第一个子元素)
@@ -101,6 +113,7 @@ const FormItem: FC<FormItemProps> = (props) => {
 FormItem.defaultProps = {
   valuePropName: 'value',
   trigger: 'onChange',
+  validateTrigger: 'onBlur',
   getValueFromEvent: (e) => e.target.value
 }
 
