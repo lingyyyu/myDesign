@@ -1,7 +1,29 @@
 {
-  "name": "my_design",
-  "version": "0.1.0",
-  "private": true,
+  "name": "my_design_ling",
+  "version": "0.1.2",
+  "description": "React components library",
+  "author": "ling",
+  "private": false,
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "keywords": [
+    "Component",
+    "Excel",
+    "UI",
+    "React"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/lingyyy/my-design"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "dist/index.css"
+  ],
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -29,7 +51,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "build-es": "rollup --config rollup.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -72,6 +95,12 @@
     "@storybook/testing-library": "^0.0.13",
     "babel-plugin-named-exports-order": "^0.0.2",
     "prop-types": "^15.8.1",
-    "webpack": "^5.74.0"
+    "webpack": "^5.74.0",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.22",
+    "rollup-plugin-sass": "^1.12.16",
+    "rollup-plugin-typescript2": "^0.34.1"
   }
 }
